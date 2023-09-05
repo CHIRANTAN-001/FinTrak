@@ -2,14 +2,14 @@ export const data = [
     {
         id: '1',
         date: "31-08-2023",
-        title: "Dinner with Friends and Family",
-        amount: 50.00,
+        title: "Dream 11",
+        amount: -50.00,
     },
     {
         id: '2',
         date: "30-08-2023",
-        title: "Dinner Out",
-        amount: -30.00,
+        title: "Dream 11",
+        amount: 100.00,
     },
     {
         id: '3',

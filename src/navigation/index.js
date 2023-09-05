@@ -1,64 +1,93 @@
 import * as React from 'react'
+import { useState, useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
-import HomeScreen from '../screens/app/HomeScreen'
-import AddExpenses from '../screens/app/AddExpenses'
-import AllExpensesScreen from '../screens/app/AllExpensesScreen'
-import EditExpenses from '../screens/app/EditExpenses'
-import ExpenseDetailsScreen from '../screens/app/ExpenseDetailsScreen'
+
 import AuthHomeScreen from '../screens/authentication/AuthHomeScreen'
-import LoginScreen from '../screens/authentication/AuthHomeScreen'
-import SignupScreen from '../screens/authentication/AuthHomeScreen'
+import LoginScreen from '../screens/authentication/LoginScreen'
+import SignupScreen from '../screens/authentication/SignupScreen'
+import AddSalaryScreen from '../screens/app/AddSalaryScreen'
 
 import Tabs from './Tabs'
+import { firebase } from "../api/firebase/firebase"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Stack = createNativeStackNavigator()
 
 export function AppNavigation() {
+
+    const [initializing, setInitializing] = useState(true);
+    const [user, setUser] = useState();
+
+    function onAuthStateChanged(user) {
+        setUser(user);
+        if (initializing) setInitializing(false);
+    }
+
+    useEffect(() => {
+        const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+        return subscriber;
+    }, []);
+
+
+    if (initializing) return null;
+
+    if (!user) {
+        return (
+            // <NavigationContainer>
+                <Stack.Navigator initialRouteName='AuthHomeScreen'>
+                    <Stack.Screen
+                        name='AuthHomeScreen'
+                        component={AuthHomeScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name='LoginScreen'
+                        component={LoginScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name='SignupScreen'
+                        component={SignupScreen}
+                        options={{ headerShown: false }}
+                />
+                
+
+                </Stack.Navigator>
+            // </NavigationContainer>
+        )
+    }
+
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName='HomeScreen'>
+        // <NavigationContainer>
+        <Stack.Navigator initialRouteName='HomeScreen'>
+            <Stack.Screen
+                        name='AuthHomeScreen'
+                        component={AuthHomeScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name='LoginScreen'
+                        component={LoginScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name='SignupScreen'
+                        component={SignupScreen}
+                        options={{ headerShown: false }}
+                    />
                 <Stack.Screen
                     name='HomeScreen'
                     component={Tabs}
-                    options={{headerShown: false}}
-                />
-                {/* <Stack.Screen
-                    name='AddExpenses'
-                    component={AddExpenses}
-                    options={{ headerShown: false }}
-                /> */}
-                <Stack.Screen
-                    name='AllExpensesScreen'
-                    component={AllExpensesScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name='EditExpenses'
-                    component={EditExpenses}
-                    options={{ headerShown: false }}
-                />
-                {/* <Stack.Screen
-                    name='ExpenseDetailsScreen'
-                    component={ExpenseDetailsScreen}
-                    options={{ headerShown: false }}
-                /> */}
-                <Stack.Screen
-                    name='AuthHomeScreen'
-                    component={AuthHomeScreen}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='LoginScreen'
-                    component={LoginScreen}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='SignupScreen'
-                    component={SignupScreen}
+                    name="AddSalaryScreen"
+                    component={AddSalaryScreen}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>
-        </NavigationContainer>
+        // </NavigationContainer>
     )
 }
+

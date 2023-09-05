@@ -1,6 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { AppNavigation } from "./src/navigation";
 import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { UserContextProvider } from "./src/context/UserContext";
+import { ExpenseContextProvider } from "./src/context/ExpenseContext";
 
 const App = () => {
   // ------------------------------------------------------------
@@ -34,14 +37,20 @@ const App = () => {
     if (fontLoaded) {
       // console.log("Fonts are loaded!");
     }
-  }, [fontLoaded]); 
+  }, [fontLoaded]);
 
   if (!fontLoaded) {
     return null;
   }
 
   return (
-    <AppNavigation />
+    <UserContextProvider>
+      <ExpenseContextProvider>
+        <NavigationContainer>
+          <AppNavigation />
+        </NavigationContainer>
+      </ExpenseContextProvider>
+    </UserContextProvider>
   )
 }
 

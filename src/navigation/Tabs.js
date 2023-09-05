@@ -21,6 +21,7 @@ import Feather from "react-native-vector-icons/Feather";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Octicons from "react-native-vector-icons/Octicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
 
@@ -97,11 +98,11 @@ const Tabs = () => {
               alignItems: 'center',
             }}>
               {focused ? (
-                <MaterialCommunityIcons name="account-details" size={25} color="#000" />
+                <Ionicons name="receipt" size={20} color="#000" />
               ): (
-                  <MaterialCommunityIcons name="account-details-outline" size={25} color="#000" />
+                  <Ionicons name="receipt-outline" size={20} color="#000" />
               )}
-              <Text>Details</Text>
+              <Text>Overview</Text>
             </View>
           ),
         }}
