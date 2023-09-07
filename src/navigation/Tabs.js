@@ -17,6 +17,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import HomeScreen from '../screens/app/HomeScreen'
 import AddExpenses from '../screens/app/AddExpenses'
 import ExpenseDetailsScreen from '../screens/app/ExpenseDetailsScreen'
+import AllExpensesScreen from "../screens/app/AllExpensesScreen"
 import Feather from "react-native-vector-icons/Feather";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -87,7 +88,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Details"
-        component={ExpenseDetailsScreen}
+        component={AllExpensesScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (

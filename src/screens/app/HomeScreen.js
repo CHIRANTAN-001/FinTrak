@@ -20,62 +20,75 @@ import { calculateTotalExpensePerMonth } from '../../api/expemse/calculateTotalE
 import { fetchExpenseData } from '../../api/expemse/fetchExpenseData';
 import { useExpense } from '../../context/ExpenseContext';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ route, navigation }) => {
 
 
     const [salaryData, setSalaryData] = useState(null);
     const [expenseData, setExpenseData] = useState([]);
-    const [isSalaryData, setIsSalaryData] = useState(false);
 
     const { user, setUser } = useUser();
-    // const{ expenseData } = useExpense();
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
     useEffect(() => {
+        const fetchSalaryData = async () => {
+            try {
+                
 
-        const unsubscribe = fetchRecentSalary((data) => {
-            setSalaryData(data);
-        })
-
-        return () => {
-            if (unsubscribe) {
-                unsubscribe();
+                // Handle the passed parameter for updated salary data
+                // console.log("route params: ", salaryData);
+                if (route.params?.updatedSalaryData) {
+                    setSalaryData(route.params.updatedSalaryData);
+                }
+                else {
+                    const salaryData = await fetchRecentSalary();
+                    setSalaryData(salaryData);
+                }
+            } catch (error) {
+                console.error("Error fetching salary data:", error);
             }
         }
-    }, [])
 
-    const updateExpenseList = (newExpense) => {
-        setExpenseData((prev) => [...prev, newExpense]);
-    }
-
-    useEffect(() => {
-        const expenseCollectionRef = firebase
-            .firestore()
-            .collection('expense')
-            .where("userId", '==', firebase.auth().currentUser.uid)
-            // .where("month", "==", )
-            .orderBy('timestamp', 'desc');
-        const unsubscribe = onSnapshot(expenseCollectionRef, (querySnapshot) => {
-            const updatedExpenseData = [];
-
-            querySnapshot.forEach((doc) => {
-                const expense = doc.data();
-                updatedExpenseData.push(expense);
-            });
-
-            setExpenseData(updatedExpenseData);
-
-            const totalExpense = updatedExpenseData.reduce((total, expense) => total + expense.amount, 0);
-
-            const remainingBalance = salaryData?.total_balance + totalExpense || 0;
-
-            setSalaryData((prev) => ({ ...prev, remaining_balance: remainingBalance }));
+        // Fetch salary data when HomeScreen is focused
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchSalaryData();
         });
+
         return () => unsubscribe();
-    }, [salaryData])
+    }, [route.params, navigation]);
+
+    useEffect(() => { 
+        const fetchAllExpenseData = async () => { 
+            try {
+                const expenses = await fetchExpenseData();
+                setExpenseData(expenses);
+            } catch (error) {
+                console.log("Error fetching expense data: ", error);
+            }
+        }
+
+        const unsubscribe = navigation.addListener('focus', () => { 
+            fetchAllExpenseData();
+        })
+
+        return () => unsubscribe();
+    },[navigation])
+
+    useEffect(() => { 
+        const updateBalance = () => {
+            if (salaryData && expenseData && expenseData.length > 0) {
+                const totalExpense = expenseData.reduce((total, expense) => total + expense.amount, 0);
+                const remainingBalance = salaryData?.total_balance + totalExpense || 0;
+                
+                setSalaryData((prev) => ({ ...prev, remaining_balance: remainingBalance }));
+                console.log(totalExpense)
+                console.log(remainingBalance)
+            }
+        }
+        updateBalance();
+    },[])
 
 
     return (
@@ -85,7 +98,7 @@ const HomeScreen = ({ navigation }) => {
                     <View className='flex-row justify-between px-5 pt-5'>
                         <View className='flex-row pt-3'>
                             <Text style={[HomeStyle.hello]}>Hello, </Text>
-                            <Text style={[HomeStyle.name]}>{capitalizeFirstLetter(user.name)}</Text>
+                            <Text style={[HomeStyle.name]}>{capitalizeFirstLetter(user?.name || "")}</Text>
                         </View>
                         <TouchableOpacity
                             onPress={() => {
@@ -150,7 +163,7 @@ const HomeScreen = ({ navigation }) => {
                 <View className='h-[45%] w-full px-5' style={{}}>
                     <FlatList
                         data={expenseData}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => item.expenseId}
                         renderItem={({ item }) => (
                             <ListOfExpenses
                                 title={item.title}

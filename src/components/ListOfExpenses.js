@@ -8,7 +8,7 @@ function formatDate(inputDate) {
         "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
     const day = dateParts[2];
-    const monthIndex = parseInt(monthNames.indexOf(dateParts[1])) + 1;
+    const monthIndex = parseInt(monthNames.indexOf(dateParts[1]));
     const year = dateParts[3];
     return `${day} ${monthNames[monthIndex]}, ${year}`;
 }

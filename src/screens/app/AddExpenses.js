@@ -7,7 +7,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import { addExpenseData } from '../../api/expemse/addExpenseData'
 import { useExpense } from '../../context/ExpenseContext'
-// import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
+import { SelectList } from 'react-native-dropdown-select-list'
+import { Dropdown } from 'react-native-element-dropdown'
+// import { v4 as uuidv4 } from 'uuid';
+
+const data = [
+  { label: 'Expense', value: 'expense' },
+  { label: 'Income', value: 'income' },
+]
+
 
 const AddExpenses = ({ navigation }) => {
 
@@ -15,23 +23,46 @@ const AddExpenses = ({ navigation }) => {
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
 
+  const [selectedValue, setSelectedValue] = useState("Expense");
+  
+  // console.log("selected value: ", selectedValue);
+
   const {addExpense} = useExpense();
 
   const handleAddExpense = async () => {
+    if (!title || !amount || !selectedValue) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
     try {
-      const response = await addExpenseData(amount, title);
+
+      const type = selectedValue.toLowerCase();
+      const numericAmount = type === 'expense' ? -parseFloat(amount) : parseFloat(amount);
+      // const expenseId = uuidv4();
+
+
+      const response = await addExpenseData(
+        // expenseId,
+        numericAmount,
+        title,
+        type
+      );
+
       console.log("response expense: ", response);
       setAmount('');
       setTitle('');
+      setError('');
 
-      addExpense(response);
+      // addExpense(response);
 
-      navigation.navigate('Home');
+      navigation.navigate('Home', {updatedExpenseData: response});
     } catch (error) {
       console.log("Error adding expense data: ", error);
       setError(error.message);
     }
   }
+
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -55,7 +86,6 @@ const AddExpenses = ({ navigation }) => {
           <View className='h-[25%] w-full ' style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
             <View className='pr-20'>
               <Text style={{ fontFamily: 'TTFirsNeue-DemiBold', fontSize: responsiveScreenFontSize(4) }}>Track Expenses Effortlessly!</Text>
-              <Text className='pt-2' style={{ fontFamily: 'TTFirsNeue-Regular', fontSize: responsiveScreenFontSize(2) }}>Use '-' for expenses and positive values for earnings (e.g., '-100' for expenses, '100' for earnings)</Text>
 
             </View>
           </View>
@@ -71,10 +101,11 @@ const AddExpenses = ({ navigation }) => {
                 placeholder='Enter expense title (e.g., Food)'
                 value={title}
                 onChangeText={(text) => setTitle(text)}
+                required
               />
             </View>
 
-            <View className='py-5' style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <View className='pt-5' style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               <View className='pb-5'>
                 <FontAwesome5 name='rupee-sign' size={20} style={[AddExpenseStyles.icon]} />
               </View>
@@ -85,11 +116,34 @@ const AddExpenses = ({ navigation }) => {
                 keyboardType='numeric'
                 value={amount}
                 onChangeText={(text) => setAmount(text)}
+                required
               />
             </View>
-            {error ? <Text className='px-5 pt-2' style={{ color: 'red' }}>{error}</Text> : null}
+            {error ? <Text className='px-5' style={{ color: 'red' }}>{error}</Text> : null}
 
-
+            <View className='py-5' style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <Dropdown
+                className='px-5'
+                style={AddExpenseStyles.dropdown}
+                placeholderStyle={AddExpenseStyles.placeholderStyle}
+                selectedTextStyle={AddExpenseStyles.selectedTextStyle}
+                data={data}
+                placeholder={selectedValue}
+                value={selectedValue}
+                onChange={(item) => {
+                  setSelectedValue(item.label);
+                }}
+                
+                renderItem={(item, index, isSelected) => (
+                  <View className='px-5' key={item.key} style={{ backgroundColor: isSelected ? '#1e1e1e' : 'transparent' }}>
+                    <Text className='py-5' style={{ fontSize: responsiveScreenFontSize(1.5), fontFamily: 'TTFirsNeue-Regular', color: isSelected ? '#ffffff' : '#1e1e1e' }}>
+                      {item.label}
+                    </Text>
+                  </View>
+                )}
+              />
+            </View>
+            
             <TouchableOpacity className='pt-4' onPress={handleAddExpense} >
               <View style={[AddExpenseStyles.inpBtn]}>
                 <Text style={{ fontFamily: 'TTFirsNeue-Bold', fontSize: responsiveScreenFontSize(3), color: '#ffffff' }}>Submit</Text>

@@ -16,7 +16,8 @@ const AddSalaryScreen = ({ navigation }) => {
         try {
             const salaryData = await addSalaryData(salary);
 
-            navigation.navigate('HomeScreen');
+            navigation.navigate('HomeScreen', { salaryData: salaryData });
+            setSalary('');
 
             console.log("Salary Data added successfully: ",salaryData);
         } catch (error) {
