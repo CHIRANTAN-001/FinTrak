@@ -19,6 +19,19 @@ export const addExpenseData = async (amount, title, type) => {
             throw new Error('Please enter a title with less than 20 characters')
         }
 
+        const salaryCollectionRef = firebase
+            .firestore()
+            .collection('salary')
+            .where('userId', '==', firebase.auth().currentUser.uid)
+            .orderBy('timestamp', 'desc')
+            .limit(1)
+        
+        const querySnapshot = await salaryCollectionRef.get();
+
+        if (querySnapshot.empty) {
+            throw new Error('Please add salary data before adding expenses');
+        }
+
         const expenseRef = await firebase.firestore().collection('expense').add({
             // expenseId,
             userId: firebase.auth().currentUser.uid,
@@ -29,6 +42,13 @@ export const addExpenseData = async (amount, title, type) => {
             timestamp: currentDateTime.toString(),
             type,
         })
+
+        const mostRecentSalary = querySnapshot.docs[0];
+        const mostRecentSalaryData = mostRecentSalary.data();
+        const remainingBalance = mostRecentSalaryData.remaining_balance || 0;
+        const newRemainingBalance = remainingBalance + amount;
+
+        await mostRecentSalary.ref.update({ remaining_balance: newRemainingBalance });
 
         return {
             userId: firebase.auth().currentUser.uid,

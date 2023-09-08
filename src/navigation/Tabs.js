@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
     responsiveHeight,
@@ -80,7 +80,9 @@ const Tabs = () => {
               alignItems: 'center',
             }}>
               <View className='flex-col justify-center items-center' style={{backgroundColor: '#1e1e1e', height: responsiveScreenHeight(6), width: responsiveScreenHeight(6), borderRadius: responsiveScreenWidth(100)}}>
-                <Feather name="plus" size={30} color="#ffffff" />
+                <TouchableOpacity>
+                  <Feather name="plus" size={30} color="#ffffff" />
+                </TouchableOpacity>
               </View>
             </View>
           ),

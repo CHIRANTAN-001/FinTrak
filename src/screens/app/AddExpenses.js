@@ -49,10 +49,11 @@ const AddExpenses = ({ navigation }) => {
         type
       );
 
-      console.log("response expense: ", response);
       setAmount('');
       setTitle('');
       setError('');
+      // console.log("response expense: ", response);
+      
 
       // addExpense(response);
 

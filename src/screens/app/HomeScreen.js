@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useRoute } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react'
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { View, Text, Image, TouchableWithoutFeedback, Keyboard, SafeAreaView, TouchableOpacity, FlatList } from 'react-native'
 import { Dimensions } from 'react-native'
 import { responsiveScreenHeight, responsiveScreenWidth, responsiveHeight, responsiveWidth, responsiveScreenFontSize } from 'react-native-responsive-dimensions';
@@ -25,12 +25,33 @@ const HomeScreen = ({ route, navigation }) => {
 
     const [salaryData, setSalaryData] = useState(null);
     const [expenseData, setExpenseData] = useState([]);
+    const [currentMonth, setCurrentMonth] = useState('');
 
     const { user, setUser } = useUser();
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
+
+    const getCurrentMonth = () => {
+        const currentDate = new Date();
+        const months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+        return months[currentDate.getMonth()];
+    };
+
+    const checkSalaryForCurrentMonth = () => {
+        const month = getCurrentMonth();
+        setCurrentMonth(month);
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            checkSalaryForCurrentMonth();
+        }, [])
+    );
 
     useEffect(() => {
         const fetchSalaryData = async () => {
@@ -76,19 +97,6 @@ const HomeScreen = ({ route, navigation }) => {
         return () => unsubscribe();
     },[navigation])
 
-    useEffect(() => { 
-        const updateBalance = () => {
-            if (salaryData && expenseData && expenseData.length > 0) {
-                const totalExpense = expenseData.reduce((total, expense) => total + expense.amount, 0);
-                const remainingBalance = salaryData?.total_balance + totalExpense || 0;
-                
-                setSalaryData((prev) => ({ ...prev, remaining_balance: remainingBalance }));
-                console.log(totalExpense)
-                console.log(remainingBalance)
-            }
-        }
-        updateBalance();
-    },[])
 
 
     return (
@@ -119,11 +127,11 @@ const HomeScreen = ({ route, navigation }) => {
                         {/* account details */}
                         <View className='flex-row justify-between'>
                             <View>
-                                <Text style={[HomeStyle.salary]}>₹{salaryData?.total_balance || 'Add Balance'}</Text>
-                                <Text style={{ color: '#8a8b8b', fontFamily: 'TTFirsNeue-Regular', fontSize: responsiveScreenFontSize(2) }}>Total Balance</Text>
+                                <Text style={[HomeStyle.salary]}>₹{salaryData?.total_balance || 'Add Salary'}</Text>
+                                <Text style={{ color: '#8a8b8b', fontFamily: 'TTFirsNeue-Regular', fontSize: responsiveScreenFontSize(1.7) }}>Total Balance</Text>
                             </View>
                             <View className='pt-2'>
-                                <Text style={[HomeStyle.month]}>{salaryData?.month || 'month'}, {salaryData?.year || 'year'}</Text>
+                                <Text style={[HomeStyle.month]}>{salaryData?.month || 'M'}, {salaryData?.year || 'Y'}</Text>
                             </View>
                         </View>
 
@@ -136,17 +144,15 @@ const HomeScreen = ({ route, navigation }) => {
                             <View className='flex-row justify-between'>
                                 <View className='flex-col'>
                                     <Text style={[HomeStyle.salary]}>₹{salaryData?.remaining_balance || '0'}</Text>
-                                    <Text style={{ color: '#8a8b8b', fontFamily: 'TTFirsNeue-Regular', fontSize: responsiveScreenFontSize(2) }}>Remaining Balance</Text>
+                                    <Text style={{ color: '#8a8b8b', fontFamily: 'TTFirsNeue-Regular', fontSize: responsiveScreenFontSize(1.7) }}>Remaining Balance</Text>
                                 </View>
                                 <View className='pt-2'>
-                                    {!salaryData?.total_balance ? (
+                                    {salaryData?.length === 0 || salaryData?.month !== currentMonth ? (
                                         <TouchableOpacity onPress={() => navigation.navigate("AddSalaryScreen")}>
                                             <Entypo name='plus' size={30} color='#FFD700' />
                                         </TouchableOpacity>
                                     ) : (
-                                        <TouchableOpacity onPress={() => navigation.navigate("AddSalaryScreen")}>
-                                            <Feather name='edit-2' size={30} color='#FFD700' />
-                                        </TouchableOpacity>
+                                        <Text></Text>
                                     )}
 
                                 </View>

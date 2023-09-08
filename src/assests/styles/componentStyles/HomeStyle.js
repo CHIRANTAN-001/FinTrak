@@ -20,12 +20,12 @@ export const HomeStyle = StyleSheet.create({
     },
     month: {
         fontFamily: 'TTFirsNeue-Medium',
-        fontSize: responsiveScreenFontSize(2),
+        fontSize: responsiveScreenFontSize(1.7),
         color: '#ffffff',
     },
     salary: {
         fontFamily: 'TTFirsNeue-DemiBold',
-        fontSize: responsiveScreenFontSize(4.5),
+        fontSize: responsiveScreenFontSize(4),
         color: '#ffffff',
     },
     addSalaryBtn: {

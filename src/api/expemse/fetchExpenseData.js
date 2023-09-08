@@ -21,7 +21,7 @@ export const fetchExpenseData = async () => {
             .get();
 
         const expenseData = expenseCollection.docs.map((doc) => doc.data());
-        console.log(expenseData)
+        // console.log(expenseData)
         return expenseData;
 
     } catch (error) {

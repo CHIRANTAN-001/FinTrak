@@ -43,4 +43,9 @@ export const overviewListStyle = StyleSheet.create({
         fontSize: responsiveScreenFontSize(2),
         color: '#808080',
     },
+    seeMore: {
+        fontFamily: 'TTFirsNeue-Medium',
+        fontSize: responsiveScreenFontSize(1.8),
+        color: '#1e1e1e',
+    }
 })

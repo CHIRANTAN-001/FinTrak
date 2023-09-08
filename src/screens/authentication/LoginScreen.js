@@ -50,7 +50,7 @@ const LoginScreen = () => {
 
                 setEmail('');
                 setPassword('');
-                console.log(userData)
+                // console.log(userData)
 
                 setUser(userData)
                 navigation.navigate('HomeScreen')

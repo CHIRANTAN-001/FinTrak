@@ -13,13 +13,13 @@ function formatDate(inputDate) {
     return `${day} ${monthNames[monthIndex]}, ${year}`;
 }
 
-const ListOfExpenses = (props) => {
+const ListOfAllExpensesByMonth = (props) => {
 
     const color = props.amount >= 0 ? '#1e6953' : 'red'
     const price = props.amount >= 0 ? `+${props.amount.toFixed(2)}` : props.amount.toFixed(2)
     // { borderColor: amount >= 0 ? '#1e6953' : 'red' }
     return (
-        <TouchableOpacity activeOpacity = { 1 }>
+        <TouchableOpacity activeOpacity={1}>
             <View className='py-2'>
                 <View
                     className='justify-center align-middle'
@@ -42,4 +42,4 @@ const ListOfExpenses = (props) => {
     )
 }
 
-export default ListOfExpenses
+export default ListOfAllExpensesByMonth
