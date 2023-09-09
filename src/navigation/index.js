@@ -15,6 +15,7 @@ import MonthlyOverview from '../screens/app/MonthlyOverview'
 import ListOfOverview from '../components/ListOfOverview'
 import { enableExperimentalWebImplementation } from 'react-native-gesture-handler';
 import ListOfAllExpensesByMonth from '../components/ListOfAllExpensesByMonth'
+import SplashScreen from '../screens/app/SplashScreen'
 
 
 const Stack = createNativeStackNavigator()
@@ -42,11 +43,20 @@ export function AppNavigation() {
 
     if (!user) {
         return (
-            // <NavigationContainer>
             <Stack.Navigator initialRouteName='AuthHomeScreen'>
+                {/* <Stack.Screen
+                    name='SplashScreen'
+                    component={SplashScreen}
+                    options={{ headerShown: false }}
+                /> */}
                 <Stack.Screen
                     name='AuthHomeScreen'
                     component={AuthHomeScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name='LoadingScreen'
+                    component={LoginScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
@@ -62,16 +72,24 @@ export function AppNavigation() {
 
 
             </Stack.Navigator>
-            // </NavigationContainer>
         )
     }
 
     return (
-        // <NavigationContainer>
         <Stack.Navigator initialRouteName='HomeScreen'>
+            {/* <Stack.Screen
+                name='SplashScreen'
+                component={SplashScreen}
+                options={{ headerShown: false }}
+            /> */}
             <Stack.Screen
                 name='AuthHomeScreen'
                 component={AuthHomeScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='LoadingScreen'
+                component={LoginScreen}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -111,7 +129,6 @@ export function AppNavigation() {
             />
             
         </Stack.Navigator>
-        // </NavigationContainer>
     )
 }
 

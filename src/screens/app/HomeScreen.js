@@ -106,7 +106,7 @@ const HomeScreen = ({ route, navigation }) => {
                     <View className='flex-row justify-between px-5 pt-5'>
                         <View className='flex-row pt-3'>
                             <Text style={[HomeStyle.hello]}>Hello, </Text>
-                            <Text style={[HomeStyle.name]}>{capitalizeFirstLetter(user?.name || "")}</Text>
+                            <Text style={[HomeStyle.name]}>{capitalizeFirstLetter(user?.name.split(' ')[0] || "")}</Text>
                         </View>
                         <TouchableOpacity
                             onPress={() => {

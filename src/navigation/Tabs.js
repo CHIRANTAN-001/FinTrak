@@ -80,9 +80,9 @@ const Tabs = () => {
               alignItems: 'center',
             }}>
               <View className='flex-col justify-center items-center' style={{backgroundColor: '#1e1e1e', height: responsiveScreenHeight(6), width: responsiveScreenHeight(6), borderRadius: responsiveScreenWidth(100)}}>
-                <TouchableOpacity>
+                {/* <TouchableOpacity> */}
                   <Feather name="plus" size={30} color="#ffffff" />
-                </TouchableOpacity>
+                {/* </TouchableOpacity> */}
               </View>
             </View>
           ),

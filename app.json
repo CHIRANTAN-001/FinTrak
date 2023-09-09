@@ -1,13 +1,12 @@
 {
   "expo": {
-    "name": "FinTrak",
-    "slug": "FinTrak",
-    "version": "1.0.0",
+    "name": "Fintrak",
+    "slug": "Fintrak",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,14 +22,14 @@
         "backgroundColor": "#ffffff"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.chirantan001.FinTrak"
+      "package": "com.chirantan001.Fintrak"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "4727f5f0-f0a3-4846-b077-84fdec24a5b5"
+        "projectId": "8b3cfe5a-ea49-49f4-a38a-a4069e2d3781"
       }
     }
   }

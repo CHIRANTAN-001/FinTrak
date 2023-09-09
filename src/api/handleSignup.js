@@ -5,6 +5,14 @@ import { firebase } from "./firebase/firebase"
 
 export const handleSignup = async (displayName, email, password, navigation) => { 
     try {
+
+        const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(email);
+
+        if (signInMethods.length > 0) { 
+            alert('User with this email address already exists.');
+            return;
+        }
+
         await firebase.auth().createUserWithEmailAndPassword(
             email,
             password,

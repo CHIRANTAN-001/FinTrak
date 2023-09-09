@@ -87,7 +87,7 @@ const SignupScreen = ({ navigation }) => {
                             <TextInput
                                 className='px-14'
                                 style={[AddExpenseStyles.input]}
-                                placeholder='Enter your name'
+                                placeholder='Enter your first name'
                                 keyboardType='default'
                                 value={displayName}
                                 onChangeText={(displayName) => setDisplayName(displayName)}

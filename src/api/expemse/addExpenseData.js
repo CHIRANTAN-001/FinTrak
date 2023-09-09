@@ -9,6 +9,9 @@ const monthNames = [
 
 export const addExpenseData = async (amount, title, type) => {
     try {
+
+        const positiveAmount = Math.abs(amount);
+
         const currentDateTime = new Date();
         const year = currentDateTime.getFullYear();
         const month = currentDateTime.getMonth() + 1;
@@ -32,20 +35,31 @@ export const addExpenseData = async (amount, title, type) => {
             throw new Error('Please add salary data before adding expenses');
         }
 
+        const mostRecentSalary = querySnapshot.docs[0];
+        const mostRecentSalaryData = mostRecentSalary.data();
+        const remainingBalance = mostRecentSalaryData.remaining_balance || 0;
+
+        console.log("Remaining balance:", remainingBalance);
+        console.log("Expense amount:", positiveAmount);
+
+        if (positiveAmount > remainingBalance) {
+            throw new Error('Insufficient balance. Your expense amount exceeds your remaining balance.');
+        }
+
+        const negativeAmount = -positiveAmount;
+
+
         const expenseRef = await firebase.firestore().collection('expense').add({
             // expenseId,
             userId: firebase.auth().currentUser.uid,
             title,
-            amount,
+            amount: negativeAmount,
             month: monthName,
             year: year,
             timestamp: currentDateTime.toString(),
             type,
         })
 
-        const mostRecentSalary = querySnapshot.docs[0];
-        const mostRecentSalaryData = mostRecentSalary.data();
-        const remainingBalance = mostRecentSalaryData.remaining_balance || 0;
         const newRemainingBalance = remainingBalance + amount;
 
         await mostRecentSalary.ref.update({ remaining_balance: newRemainingBalance });
@@ -53,7 +67,7 @@ export const addExpenseData = async (amount, title, type) => {
         return {
             userId: firebase.auth().currentUser.uid,
             title,
-            amount,
+            amount: positiveAmount,
             month: monthName,
             year: year,
             timestamp: currentDateTime.toString(),
