@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, TouchableWithoutFeedback, SafeAreaView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 import { responsiveScreenFontSize, responsiveScreenWidth, responsiveScreenHeight } from 'react-native-responsive-dimensions'
 import { AddExpenseStyles } from '../../assests/styles/componentStyles/AddExpenseStyles'
@@ -27,7 +27,9 @@ const AddExpenses = ({ navigation }) => {
   
   // console.log("selected value: ", selectedValue);
 
-  const {addExpense} = useExpense();
+  // const { addExpense } = useExpense();
+  const dropdownRef = useRef();
+  
 
   const handleAddExpense = async () => {
     if (!title || !amount || !selectedValue) {
@@ -134,13 +136,25 @@ const AddExpenses = ({ navigation }) => {
                 onChange={(item) => {
                   setSelectedValue(item.label);
                 }}
-                
+                ref={dropdownRef}
                 renderItem={(item, index, isSelected) => (
-                  <View className='px-5' key={item.key} style={{ backgroundColor: isSelected ? '#1e1e1e' : 'transparent' }}>
-                    <Text className='py-5' style={{ fontSize: responsiveScreenFontSize(1.5), fontFamily: 'TTFirsNeue-Regular', color: isSelected ? '#ffffff' : '#1e1e1e' }}>
-                      {item.label}
-                    </Text>
-                  </View>
+                  <TouchableWithoutFeedback
+                    key={item.key}
+                    onPress={() => {
+                      if (item.label !== selectedValue) {
+                        setSelectedValue(item.label);
+                      }
+                      dropdownRef.current.close();
+                    }}
+                  >
+                    <View className='px-5' style={{
+                      backgroundColor: isSelected ? '#1e1e1e' : '#ffffff',
+                    }}>
+                      <Text className='py-5' style={{ fontSize: responsiveScreenFontSize(1.5), fontFamily: 'TTFirsNeue-Regular', color: isSelected ? '#ffffff' : '#1e1e1e' }}>
+                        {item.label}
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
                 )}
               />
             </View>

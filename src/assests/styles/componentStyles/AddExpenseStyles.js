@@ -64,9 +64,9 @@ export const AddExpenseStyles = StyleSheet.create({
     },
     selectedTextStyle: {
         fontSize: responsiveScreenFontSize(1.4),
-        color: "#000000",
+        color: "#1e1e1e",
         paddingLeft: responsiveScreenWidth(2),
-        backgroundColor: "#00000",
+        backgroundColor: "#ffffff",
         // fontFamily: "Sora-SemiBold",
     },
     iconStyle: {

@@ -18,6 +18,7 @@ export const fetchExpenseData = async () => {
             .where("userId", '==', firebase.auth().currentUser.uid)
             .where("month", '==', monthName)
             .where("year", '==', year)
+            .orderBy('timestamp', 'desc')
             .get();
 
         const expenseData = expenseCollection.docs.map((doc) => doc.data());

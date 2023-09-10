@@ -16,62 +16,108 @@ export const addExpenseData = async (amount, title, type) => {
         const year = currentDateTime.getFullYear();
         const month = currentDateTime.getMonth() + 1;
         const monthName = monthNames[month];
-        
+
 
         if (title.length > 20) {
             throw new Error('Please enter a title with less than 20 characters')
         }
 
-        const salaryCollectionRef = firebase
-            .firestore()
-            .collection('salary')
-            .where('userId', '==', firebase.auth().currentUser.uid)
-            .orderBy('timestamp', 'desc')
-            .limit(1)
-        
-        const querySnapshot = await salaryCollectionRef.get();
+        if (type === 'expense') {
+            const salaryCollectionRef = firebase
+                .firestore()
+                .collection('salary')
+                .where('userId', '==', firebase.auth().currentUser.uid)
+                .orderBy('timestamp', 'desc')
+                .limit(1)
 
-        if (querySnapshot.empty) {
-            throw new Error('Please add salary data before adding expenses');
-        }
+            const querySnapshot = await salaryCollectionRef.get();
 
-        const mostRecentSalary = querySnapshot.docs[0];
-        const mostRecentSalaryData = mostRecentSalary.data();
-        const remainingBalance = mostRecentSalaryData.remaining_balance || 0;
+            if (querySnapshot.empty) {
+                throw new Error('Please add salary data before adding expenses');
+            }
 
-        console.log("Remaining balance:", remainingBalance);
-        console.log("Expense amount:", positiveAmount);
+            const mostRecentSalary = querySnapshot.docs[0];
+            const mostRecentSalaryData = mostRecentSalary.data();
+            const remainingBalance = mostRecentSalaryData.remaining_balance || 0;
 
-        if (positiveAmount > remainingBalance) {
-            throw new Error('Insufficient balance. Your expense amount exceeds your remaining balance.');
-        }
+            console.log("Remaining balance:", remainingBalance);
+            console.log("Expense amount:", positiveAmount);
 
-        const negativeAmount = -positiveAmount;
+            if (positiveAmount > remainingBalance) {
+                throw new Error('Insufficient balance. Your expense amount exceeds your remaining balance.');
+            }
+
+            const negativeAmount = -positiveAmount;
 
 
-        const expenseRef = await firebase.firestore().collection('expense').add({
-            // expenseId,
-            userId: firebase.auth().currentUser.uid,
-            title,
-            amount: negativeAmount,
-            month: monthName,
-            year: year,
-            timestamp: currentDateTime.toString(),
-            type,
-        })
+            const expenseRef = await firebase.firestore().collection('expense').add({
+                // expenseId,
+                userId: firebase.auth().currentUser.uid,
+                title,
+                amount: negativeAmount,
+                month: monthName,
+                year: year,
+                timestamp: currentDateTime.toString(),
+                type,
+            })
 
-        const newRemainingBalance = remainingBalance + amount;
+            const newRemainingBalance = remainingBalance + amount;
 
-        await mostRecentSalary.ref.update({ remaining_balance: newRemainingBalance });
+            await mostRecentSalary.ref.update({ remaining_balance: newRemainingBalance });
 
-        return {
-            userId: firebase.auth().currentUser.uid,
-            title,
-            amount: positiveAmount,
-            month: monthName,
-            year: year,
-            timestamp: currentDateTime.toString(),
-            type,
+            return {
+                userId: firebase.auth().currentUser.uid,
+                title,
+                amount: negativeAmount,
+                month: monthName,
+                year: year,
+                timestamp: currentDateTime.toString(),
+                type,
+            }
+
+        } else if (type === 'income') {
+
+            const incomeRef = await firebase.firestore().collection('expense').add({
+                userId: firebase.auth().currentUser.uid,
+                title,
+                amount: positiveAmount,
+                month: monthName,
+                year,
+                timestamp: currentDateTime.toString(),
+            });
+
+            const salaryCollectionRef = firebase
+                .firestore()
+                .collection('salary')
+                .where('userId', '==', firebase.auth().currentUser.uid)
+                .orderBy('timestamp', 'desc')
+                .limit(1);
+
+            const querySnapshot = await salaryCollectionRef.get();
+
+            if (!querySnapshot.empty) {
+                const mostRecentSalary = querySnapshot.docs[0];
+                const mostRecentSalaryData = mostRecentSalary.data();
+                const remainingBalance = mostRecentSalaryData.remaining_balance || 0;
+                const newRemainingBalance = remainingBalance + positiveAmount;
+
+                await mostRecentSalary.ref.update({ remaining_balance: newRemainingBalance });
+
+                // Return the newRemainingBalance for income
+                return {
+                    userId: firebase.auth().currentUser.uid,
+                    title,
+                    amount: positiveAmount,
+                    month: monthName,
+                    year,
+                    timestamp: currentDateTime.toString(),
+                    type,
+                    newRemainingBalance,
+                };
+            } else {
+                throw new Error('Please add salary data before adding income');
+            }
+
         }
     } catch (error) {
         console.log("error adding expense data: ", error)
