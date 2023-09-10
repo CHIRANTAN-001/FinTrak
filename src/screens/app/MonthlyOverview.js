@@ -1,10 +1,21 @@
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
 import React, { useCallback, useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { useFocusEffect, useRoute } from '@react-navigation/native'
+import ListOfAllExpensesByMonth from '../../components/ListOfAllExpensesByMonth'
+
+// --------------------------------------------------------------------
+// STYLES
+// --------------------------------------------------------------------
 import AntDesign from "react-native-vector-icons/AntDesign"
 import { responsiveScreenFontSize, responsiveScreenHeight } from 'react-native-responsive-dimensions'
-import ListOfAllExpensesByMonth from '../../components/ListOfAllExpensesByMonth'
-import { useFocusEffect, useRoute } from '@react-navigation/native'
-import {firebase} from "../../api/firebase/firebase"
+
+// --------------------------------------------------------------------
+// BACKEND FUNCTIONS
+// --------------------------------------------------------------------
+import { firebase } from "../../api/firebase/firebase"
 import { fetchExpensesByMonthAndYear } from '../../api/expemse/fetchExpensesByMonthAndYear'
 
 const MonthlyOverview = ({ navigation }) => {

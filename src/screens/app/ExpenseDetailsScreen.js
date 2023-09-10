@@ -1,7 +1,10 @@
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
 import React from 'react'
 import { View, Text, TouchableWithoutFeedback, SafeAreaView, FlatList } from 'react-native'
-import { data } from '../other/sampleData'
 import ListOfExpenses from '../../components/ListOfExpenses'
+import { data } from '../other/sampleData'
 
 const ExpenseDetailsScreen = () => {
   return (

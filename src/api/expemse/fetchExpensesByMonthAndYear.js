@@ -1,3 +1,6 @@
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR FETCHING EXPENSES BY MONTH AND YEAR
+// --------------------------------------------------------------------
 import { firebase } from "../firebase/firebase";
 
 export const fetchExpensesByMonthAndYear = async (userId, month, year) => {

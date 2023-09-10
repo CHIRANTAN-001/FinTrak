@@ -1,4 +1,6 @@
-import { useUser } from "../../context/UserContext";
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR ADDING SALARY DATA
+// --------------------------------------------------------------------
 import { firebase } from "../firebase/firebase"
 
 const monthNames = [

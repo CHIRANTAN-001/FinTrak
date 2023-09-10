@@ -1,10 +1,20 @@
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
 import React, { useState } from 'react'
 import { View, Text, TouchableWithoutFeedback, SafeAreaView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
+
+// --------------------------------------------------------------------
+// STYLES
+// --------------------------------------------------------------------
 import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
 import { AddExpenseStyles } from '../../assests/styles/componentStyles/AddExpenseStyles'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import AntDesign from "react-native-vector-icons/AntDesign"
+
+// --------------------------------------------------------------------
+// BACKEND FUNCTIONS
+// -------------------------------------------------------------------- 
 import { addSalaryData } from '../../api/expemse/addSalaryData'
 
 const AddSalaryScreen = ({ navigation }) => {

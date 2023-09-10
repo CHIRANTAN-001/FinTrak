@@ -1,16 +1,25 @@
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
 import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableWithoutFeedback, SafeAreaView, TextInput, Keyboard, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { useUser } from '../../context/UserContext'
+
+// --------------------------------------------------------------------
+// STYLES
+// --------------------------------------------------------------------
 import { responsiveScreenFontSize, responsiveScreenWidth, responsiveScreenHeight } from 'react-native-responsive-dimensions'
 import { AddExpenseStyles } from '../../assests/styles/componentStyles/AddExpenseStyles'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import Feather from "react-native-vector-icons/Feather"
+
+// --------------------------------------------------------------------
+// BACKEND FUNCTIONS
+// --------------------------------------------------------------------
 import { handleLogin } from '../../api/handleLogin'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useNavigation } from '@react-navigation/native'
-import { useUser } from '../../context/UserContext'
-import LoadingScreen from '../../components/LoadingScreen'
+
 
 const LoginScreen = () => {
 

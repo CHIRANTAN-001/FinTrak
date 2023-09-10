@@ -1,4 +1,6 @@
-import { query } from "firebase/firestore";
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR FETCHING ALL SALARY DATA
+// --------------------------------------------------------------------
 import { firebase } from "../firebase/firebase"
 
 export const fetchAllSalaryData = async () => {

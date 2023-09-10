@@ -1,3 +1,6 @@
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR FETCHING EXPENSE DATA
+// --------------------------------------------------------------------
 import { firebase } from "../firebase/firebase"
 
 const monthNames = [

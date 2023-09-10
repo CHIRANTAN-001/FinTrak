@@ -1,15 +1,24 @@
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
 import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, TouchableWithoutFeedback, SafeAreaView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
+import { Dropdown } from 'react-native-element-dropdown'
+
+
+// --------------------------------------------------------------------
+// STYLES
+// --------------------------------------------------------------------
 import { responsiveScreenFontSize, responsiveScreenWidth, responsiveScreenHeight } from 'react-native-responsive-dimensions'
 import { AddExpenseStyles } from '../../assests/styles/componentStyles/AddExpenseStyles'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import AntDesign from "react-native-vector-icons/AntDesign"
+
+// --------------------------------------------------------------------
+// BACKEND FUNCTIONS
+// --------------------------------------------------------------------
 import { addExpenseData } from '../../api/expemse/addExpenseData'
-import { useExpense } from '../../context/ExpenseContext'
-import { SelectList } from 'react-native-dropdown-select-list'
-import { Dropdown } from 'react-native-element-dropdown'
-// import { v4 as uuidv4 } from 'uuid';
 
 const data = [
   { label: 'Expense', value: 'expense' },

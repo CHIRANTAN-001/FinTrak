@@ -1,5 +1,6 @@
-// import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-// import auth from '@react-native-firebase/auth';
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR SIGNUP
+// --------------------------------------------------------------------
 import { firebase } from "./firebase/firebase"
 // import 
 

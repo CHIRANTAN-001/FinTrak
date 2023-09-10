@@ -1,10 +1,21 @@
-import React, {useEffect} from 'react'
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
+import React, { useEffect } from 'react'
 import { Text, Keyboard, SafeAreaView, TouchableWithoutFeedback, View, TouchableOpacity, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+
+// --------------------------------------------------------------------
+// SVG COMPONENTS
+// --------------------------------------------------------------------
 import LoginSvg from '../../assests/svg/LoginSvg'
+
+// --------------------------------------------------------------------
+// STYLE
+// --------------------------------------------------------------------
 import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
 import { AddExpenseStyles } from '../../assests/styles/componentStyles/AddExpenseStyles'
-import { useNavigation } from '@react-navigation/native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const AuthHomeScreen = () => {
 

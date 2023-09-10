@@ -1,4 +1,7 @@
-import {firebase} from "./firebase/firebase"
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR LOGIN
+// --------------------------------------------------------------------
+import { firebase } from "./firebase/firebase"
 
 export const handleLogin = async (email, password) => {
     try {

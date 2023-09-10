@@ -1,11 +1,19 @@
-import React, { useState,useEffect, useCallback } from 'react'
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
-import { listStyle } from '../../assests/styles/componentStyles/listStyle'
+import { useFocusEffect } from '@react-navigation/native'
+
+// --------------------------------------------------------------------
+// STYLES
+// --------------------------------------------------------------------
 import ListOfOverview from '../../components/ListOfOverview'
 import { overviewListStyle } from '../../assests/styles/componentStyles/overviewListStyle'
-import {firebase} from "../../api/firebase/firebase"
-import { fetchRecentSalary } from '../../api/expemse/fetchRecentSalary'
-import { useFocusEffect } from '@react-navigation/native'
+
+// --------------------------------------------------------------------
+// BACKEND FUNCTIONS
+// --------------------------------------------------------------------
 import { fetchAllSalaryData } from '../../api/expemse/fetchAllSalaryData'
 
 

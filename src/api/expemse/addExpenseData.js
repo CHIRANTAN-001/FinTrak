@@ -1,6 +1,7 @@
-import { useUser } from "../../context/UserContext";
+// --------------------------------------------------------------------
+// BACK END API CALLS FOR ADDING EXPENSE DATA
+// --------------------------------------------------------------------
 import { firebase } from "../firebase/firebase"
-import { v4 as uuidv4 } from 'uuid';
 
 
 const monthNames = [

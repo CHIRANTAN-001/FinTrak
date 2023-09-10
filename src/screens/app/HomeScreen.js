@@ -1,24 +1,27 @@
+// --------------------------------------------------------------------
+// SYSTEM COMPONENTS
+// --------------------------------------------------------------------
 import React, { useState, useEffect, useCallback } from 'react'
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { View, Text, Image, TouchableWithoutFeedback, Keyboard, SafeAreaView, TouchableOpacity, FlatList } from 'react-native'
-import { Dimensions } from 'react-native'
+
+
+// --------------------------------------------------------------------
+// STYLES
+// --------------------------------------------------------------------
 import { responsiveScreenHeight, responsiveScreenWidth, responsiveHeight, responsiveWidth, responsiveScreenFontSize } from 'react-native-responsive-dimensions';
 import { HomeStyle } from '../../assests/styles/componentStyles/HomeStyle';
-import Icon from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
-import ListOfExpenses from '../../components/ListOfExpenses';
-import { data } from '../other/sampleData';
-import { fetchCurrentUser } from '../../api/fetchCurrentUser';
-import { auth, db } from '../../api/firebase/firebase';
-import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
 import Feather from 'react-native-vector-icons/Feather';
-import { handleSignOut } from '../../api/handleSignout';
+
+// --------------------------------------------------------------------
+// BACKEND FUNCTIONS
+// --------------------------------------------------------------------
+import ListOfExpenses from '../../components/ListOfExpenses';
 import { firebase } from "../../api/firebase/firebase"
 import { useUser } from '../../context/UserContext';
 import { fetchRecentSalary } from '../../api/expemse/fetchRecentSalary';
-import { calculateTotalExpensePerMonth } from '../../api/expemse/calculateTotalExpensePerMonth';
 import { fetchExpenseData } from '../../api/expemse/fetchExpenseData';
-import { useExpense } from '../../context/ExpenseContext';
 
 const HomeScreen = ({ route, navigation }) => {
 
@@ -56,10 +59,6 @@ const HomeScreen = ({ route, navigation }) => {
     useEffect(() => {
         const fetchSalaryData = async () => {
             try {
-                
-
-                // Handle the passed parameter for updated salary data
-                // console.log("route params: ", salaryData);
                 if (route.params?.updatedSalaryData) {
                     setSalaryData(route.params.updatedSalaryData);
                 }
@@ -71,8 +70,6 @@ const HomeScreen = ({ route, navigation }) => {
                 console.error("Error fetching salary data:", error);
             }
         }
-
-        // Fetch salary data when HomeScreen is focused
         const unsubscribe = navigation.addListener('focus', () => {
             fetchSalaryData();
         });
