@@ -31,6 +31,7 @@ const AddExpenses = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [selectedValue, setSelectedValue] = useState("Expense");
   
@@ -45,6 +46,8 @@ const AddExpenses = ({ navigation }) => {
       setError('Please fill in all fields.');
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
 
@@ -64,7 +67,7 @@ const AddExpenses = ({ navigation }) => {
       setTitle('');
       setError('');
       // console.log("response expense: ", response);
-      
+      setIsSubmitting(false);
 
       // addExpense(response);
 
@@ -168,7 +171,7 @@ const AddExpenses = ({ navigation }) => {
               />
             </View>
             
-            <TouchableOpacity className='pt-4' onPress={handleAddExpense} >
+            <TouchableOpacity className='pt-4' onPress={handleAddExpense} disabled={isSubmitting}>
               <View style={[AddExpenseStyles.inpBtn]}>
                 <Text style={{ fontFamily: 'TTFirsNeue-Bold', fontSize: responsiveScreenFontSize(3), color: '#ffffff' }}>Submit</Text>
               </View>
