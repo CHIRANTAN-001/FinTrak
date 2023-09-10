@@ -39,9 +39,6 @@ Users can navigate to the "Overview" section to view their income and expenses f
 
 ## Tech Stacks
 
-
-## Tech Stack
-
 **Client:** React Native, TailwindCSS
 
 **Server:** Firebase
