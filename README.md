@@ -43,3 +43,6 @@ Users can navigate to the "Overview" section to view their income and expenses f
 
 **Server:** Firebase
 
+## 📌App Download Link
+https://expo.dev/accounts/chirantan-001/projects/Fintrak/builds/51753982-3c16-4843-90be-28ce77dd755c
+
